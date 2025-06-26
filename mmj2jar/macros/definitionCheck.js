@@ -216,6 +216,7 @@ function setMMDefinitionsCheck(axiom)
     for each (var v in dummies) {
         // Rule 5: every dummy variable should be a set variable,
         // unless there is a justification theorem
+	if ("df-bad3".equals(axiom.label)) print("dummy variable = " + v.getVar());
         if (v.getTyp() != set) {
             messages.accumInfoMessage(
                 ERRMSG_PA_DEFINITION_FAIL_5, axiom.label);
@@ -227,7 +228,11 @@ function setMMDefinitionsCheck(axiom)
             root.child[1], true, axiom)
             && !proveBoundVar(w, boundVars, new ParseNode(v), dummy,
                 root.child[1], false, axiom))
+	{
+	    if ("df-bad3".equals(axiom.label)) print("Ahhhhhh");
             badVars.add(v.getVar());
+	}
+
     }
     if (!badVars.isEmpty()) {
         messages.accumInfoMessage(ERRMSG_PA_DEFINITION_FAIL_6,
