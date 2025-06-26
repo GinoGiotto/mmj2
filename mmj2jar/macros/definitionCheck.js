@@ -388,9 +388,9 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast)
     for (var i = 0; i < val.length; i++)
         if (!bound2[i])
             return !fast && isBound(w, v, dummy, root);
-   if ("df-bad3".equals(axiom.label)) {
-    		print("I got here 4");
-    }
+   //if ("df-bad3".equals(axiom.label)) {
+    //		print("I got here 4");
+    //}
     return true;
 }
 
