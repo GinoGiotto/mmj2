@@ -176,7 +176,12 @@ function setMMDefinitionsCheck(axiom)
     // If there are no dummy variables, no further processing is needed -
     // the test is passed
     if (dummies.isEmpty())
+    {
+	if ("df-bad3".equals(axiom.label)) {
+    		print("I got here");
+	}
         return success;
+    }
 
     // Generate a 'justification' theorem and see if it unifies with
     // something in the database
