@@ -177,15 +177,14 @@ function setMMDefinitionsCheck(axiom)
     // the test is passed
     if (dummies.isEmpty())
     {
-    	if ("df-or".equals(axiom.label)) {
-    		print("I got here");
+    	if ("df-bad3".equals(axiom.label)) {
+    		print("I got here 1");
 	}
         return success;
     }
 
     // Generate a 'justification' theorem and see if it unifies with
     // something in the database
-/*
     var newRoot = new ParseNode(root.stmt);
     var assignments = new HashMap();
     var w = new ProofWorksheet("dummy",
@@ -196,9 +195,12 @@ function setMMDefinitionsCheck(axiom)
             new ParseNode(getUnusedDummyVar(w, taken, d.getTyp())));
     newRoot.child = [root.child[1],
             reassignVariables(assignments, root.child[1])];
-    if (justify(w, newRoot))
+    if (justify(w, newRoot)) {
+	if ("df-bad3".equals(axiom.label)) {
+    		print("I got here 2");
+	}
         return success;
-*/
+    }
 
     // Okay, we couldn't directly find a justification theorem. Most later
     // definitions will fall into this category. Our new approach will be
@@ -231,6 +233,9 @@ function setMMDefinitionsCheck(axiom)
         messages.accumInfoMessage(ERRMSG_PA_DEFINITION_FAIL_6,
             axiom.label, badVars);
         success = false;
+    }
+   if ("df-bad3".equals(axiom.label)) {
+    	print("I got here 3");
     }
     return success;
 }
@@ -383,6 +388,9 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast)
     for (var i = 0; i < val.length; i++)
         if (!bound2[i])
             return !fast && isBound(w, v, dummy, root);
+   if ("df-bad3".equals(axiom.label)) {
+    		print("I got here 4");
+    }
     return true;
 }
 
