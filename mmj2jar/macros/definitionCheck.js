@@ -224,7 +224,7 @@ function setMMDefinitionsCheck(axiom)
 
         // Rule 6: every dummy variable must be bound
         if (!proveBoundVar(w, boundVars, new ParseNode(v), dummy,
-                root.child[1], false))
+                root.child[1], false, axiom))
             badVars.add(v.getVar());
     }
     if (!badVars.isEmpty()) {
@@ -292,7 +292,7 @@ function labelBoundVars(axiom)
                     boxToType(defn[i], boxToType(defn[i], null, "class"),
                         defn[j].stmt.getTyp().getId()));
                 val[i][j] = proveBoundVar(w, boundVars, defn[i], dummy,
-                	reassignVariables(assignments, root.child[1]), true);
+                	reassignVariables(assignments, root.child[1]), true, axiom);
             }
         }
     boundVars.put(root.child[0].stmt, val);
@@ -339,56 +339,55 @@ function isBound(w, v, dummy, root)
     return justify(w, wi);
 }
 
-function proveBoundVar(w, boundVars, v, dummy, root, fast)
+function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 {
 	var bound = new boolArr(root.child.length);
 	var bound2 = new boolArr(bound.length);
 	var allBound = true;
+	
     for (var i = 0; i < root.child.length; i++)
-        allBound &= bound[i] = bound2[i] = proveBoundVar(w, boundVars,
-            v, dummy, root.child[i], fast);
-    if (allBound)
-        return v.stmt != root.stmt;
+        allBound &= bound[i] = bound2[i] = proveBoundVar(w, boundVars, v, dummy, root.child[i], fast, axiom);
+	
+    if (allBound) return v.stmt != root.stmt;
 
     var val = boundVars.get(root.stmt);
+	
     if (val == null) {
-        if (!fast)
-            return isBound(w, v, dummy, root);
-
+        if (!fast)  return isBound(w, v, dummy, root);
         var proto = root.stmt.getExprParseTree().getRoot();
         val = new boolArrArr(proto.child.length);
-        for (var i = 0; i < val.length; i++) {
-            if (!proto.child[i].stmt.getTyp().getId().equals("setvar"))
-                continue;
-
+	    
+        for (var i = 0; i < val.length; i++)
+	{
+            if (!proto.child[i].stmt.getTyp().getId().equals("setvar")) continue;
             val[i] = new boolArr(val.length);
             var assignments = new HashMap();
+		
             for (var j = 0; j < val.length; j++)
-                if (proto.child[j].stmt instanceof VarHyp) {
-                    assignments.clear();
-                    assignments.put(
-                        proto.child[j].stmt,
-                        boxToType(proto.child[i],
-                            boxToType(proto.child[i], null, "class"),
-                            proto.child[j].stmt.getTyp().getId()));
-                    val[i][j] = proveBoundVar(w, boundVars, proto.child[i],
-                        dummy, reassignVariables(assignments, proto), false);
-                }
+		{
+                	if (proto.child[j].stmt instanceof VarHyp)
+			{
+                    		assignments.clear();
+                    		assignments.put(
+                        	proto.child[j].stmt,
+                        	boxToType(proto.child[i],
+                            	boxToType(proto.child[i], null, "class"),
+                            	proto.child[j].stmt.getTyp().getId()));
+                    		val[i][j] = proveBoundVar(w, boundVars, proto.child[i],
+                        	dummy, reassignVariables(assignments, proto), false, axiom);
+                	}
+		}
         }
         boundVars.put(root.stmt, val);
     }
 
     for (var i = 0; i < val.length; i++)
-        if (val[i] != null && !bound[i])
-            for (var j = 0; j < val.length; j++)
-                bound2[j] |= val[i][j];
+        if (val[i] != null && !bound[i]) for (var j = 0; j < val.length; j++) bound2[j] |= val[i][j];
 
     for (var i = 0; i < val.length; i++)
-        if (!bound2[i])
-            return !fast && isBound(w, v, dummy, root);
-   //if ("df-bad3".equals(axiom.label)) {
-    //		print("I got here 4");
-    //}
+        if (!bound2[i]) return !fast && isBound(w, v, dummy, root);
+	
+   if ("df-bad3".equals(axiom.label)) print("I got here 4");
     return true;
 }
 
