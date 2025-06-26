@@ -177,7 +177,9 @@ function setMMDefinitionsCheck(axiom)
     // the test is passed
     if (dummies.isEmpty())
     {
-    	print("I got here");
+    	if ("df-or".equals(axiom.label)) {
+    		print("I got here");
+	}
         return success;
     }
 
