@@ -180,6 +180,7 @@ function setMMDefinitionsCheck(axiom)
 
     // Generate a 'justification' theorem and see if it unifies with
     // something in the database
+/*
     var newRoot = new ParseNode(root.stmt);
     var assignments = new HashMap();
     var w = new ProofWorksheet("dummy",
@@ -192,6 +193,7 @@ function setMMDefinitionsCheck(axiom)
             reassignVariables(assignments, root.child[1])];
     if (justify(w, newRoot))
         return success;
+*/
 
     // Okay, we couldn't directly find a justification theorem. Most later
     // definitions will fall into this category. Our new approach will be
