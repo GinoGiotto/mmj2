@@ -350,18 +350,31 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
     for (var i = 0; i < root.child.length; i++)
         allBound &= bound[i] = bound2[i] = proveBoundVar(w, boundVars, v, dummy, root.child[i], fast, axiom);
 	
-    if (allBound) return v.stmt != root.stmt;
+    if (allBound) {
+	    if ("df-bad3".equals(axiom.label)) print("I got here 5");
+	    return v.stmt != root.stmt;
+    }
 
     var val = boundVars.get(root.stmt);
 	
     if (val == null) {
-        if (!fast)  return isBound(w, v, dummy, root);
+	if ("df-bad3".equals(axiom.label)) print("I got here 6");
+	    
+        if (!fast) {
+		if ("df-bad3".equals(axiom.label)) print("I got here 7");
+		return isBound(w, v, dummy, root);
+	}
+	    
         var proto = root.stmt.getExprParseTree().getRoot();
         val = new boolArrArr(proto.child.length);
 	    
         for (var i = 0; i < val.length; i++)
 	{
-            if (!proto.child[i].stmt.getTyp().getId().equals("setvar")) continue;
+            if (!proto.child[i].stmt.getTyp().getId().equals("setvar"))
+	    {
+		    if ("df-bad3".equals(axiom.label)) print("I got here 8");
+		    continue;
+	    }
             val[i] = new boolArr(val.length);
             var assignments = new HashMap();
 		
@@ -369,6 +382,7 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 		{
                 	if (proto.child[j].stmt instanceof VarHyp)
 			{
+				if ("df-bad3".equals(axiom.label)) print("I got here 9");
                     		assignments.clear();
                     		assignments.put(
                         	proto.child[j].stmt,
@@ -384,10 +398,17 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
     }
 
     for (var i = 0; i < val.length; i++)
-        if (val[i] != null && !bound[i]) for (var j = 0; j < val.length; j++) bound2[j] |= val[i][j];
+        if (val[i] != null && !bound[i])
+	{
+		if ("df-bad3".equals(axiom.label)) print("I got here 10");
+		for (var j = 0; j < val.length; j++) bound2[j] |= val[i][j];
+	}
 
     for (var i = 0; i < val.length; i++)
-        if (!bound2[i]) return !fast && isBound(w, v, dummy, root);
+        if (!bound2[i]) {
+		if ("df-bad3".equals(axiom.label)) print("I got here 11");
+		return !fast && isBound(w, v, dummy, root);
+	}
 	
    if ("df-bad3".equals(axiom.label)) print("I got here 4");
     return true;
