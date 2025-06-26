@@ -224,6 +224,8 @@ function setMMDefinitionsCheck(axiom)
 
         // Rule 6: every dummy variable must be bound
         if (!proveBoundVar(w, boundVars, new ParseNode(v), dummy,
+            root.child[1], true, axiom)
+            && !proveBoundVar(w, boundVars, new ParseNode(v), dummy,
                 root.child[1], false, axiom))
             badVars.add(v.getVar());
     }
