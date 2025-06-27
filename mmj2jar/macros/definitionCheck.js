@@ -362,7 +362,7 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 
     var val = boundVars.get(root.stmt);
 	
-    if (val == null) {
+    // if (val == null) {
 	if ("df-bad3".equals(axiom.label)) print("I got here 6");
 	    
         if (!fast) {
@@ -400,7 +400,7 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 		}
         }
         boundVars.put(root.stmt, val);
-    }
+    // }
 
     for (var i = 0; i < val.length; i++)
         if (val[i] != null && !bound[i])
