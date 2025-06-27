@@ -367,7 +367,7 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 	    
         if (!fast) {
 		if ("df-bad3".equals(axiom.label)) print("I got here 7");
-		return isBound(w, v, dummy, root);
+		// return isBound(w, v, dummy, root);
 	}
 	    
         var proto = root.stmt.getExprParseTree().getRoot();
