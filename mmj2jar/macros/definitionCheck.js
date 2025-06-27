@@ -357,7 +357,7 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 	
     if (allBound) {
 	    if ("df-bad3".equals(axiom.label)) print("I got here 5");
-	    return v.stmt != root.stmt;
+	   // return v.stmt != root.stmt;
     }
 
     var val = boundVars.get(root.stmt);
@@ -409,11 +409,11 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 		for (var j = 0; j < val.length; j++) bound2[j] |= val[i][j];
 	}
 
-    // for (var i = 0; i < val.length; i++)
-    //    if (!bound2[i]) {
-   //		if ("df-bad3".equals(axiom.label)) print("I got here 11");
-//		return !fast && isBound(w, v, dummy, root);
-//	}
+    for (var i = 0; i < val.length; i++)
+     	if (!bound2[i]) {
+   		if ("df-bad3".equals(axiom.label)) print("I got here 11");
+		return !fast && isBound(w, v, dummy, root);
+	}
 	
    if ("df-bad3".equals(axiom.label)) print("I got here 4");
     return true;
