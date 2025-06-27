@@ -357,7 +357,7 @@ function proveBoundVar(w, boundVars, v, dummy, root, fast, axiom)
 	
     if (allBound) {
 	    if ("df-bad3".equals(axiom.label)) print("I got here 5");
-	   // return v.stmt != root.stmt;
+	    return v.stmt != root.stmt;
     }
 
     var val = boundVars.get(root.stmt);
